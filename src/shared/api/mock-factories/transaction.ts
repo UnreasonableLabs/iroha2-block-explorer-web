@@ -27,19 +27,13 @@ function makeTransactionContent(): CommittedTransaction {
 }
 
 export function makeCommittedTransaction(): TransactionDto {
-  return {
-    t: 'Committed',
-    c: makeTransactionContent(),
-  };
+  return makeTransactionContent();
 }
 
 export function makeRejectedTransaction(): TransactionDto {
   return {
-    t: 'Rejected',
-    c: {
-      ...makeTransactionContent(),
-      rejection_reason: randTextRange({ min: 10, max: 100 }),
-    },
+    ...makeTransactionContent(),
+    rejection_reason: randTextRange({ min: 10, max: 100 }),
   };
 }
 

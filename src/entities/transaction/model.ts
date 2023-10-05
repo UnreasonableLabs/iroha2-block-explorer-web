@@ -30,17 +30,19 @@ function hexToBytes(hex: string) {
 }
 
 export function mapFromDto(transaction: TransactionDto): Transaction {
-  const instructions = transaction.c.payload.instructions.c
-    ?.map((i: string) => Instruction.fromBuffer(hexToBytes(i))) ?? [];
+  // FIXME
+  // const instructions = transaction.payload.instructions.c
+  //   ?.map((i: string) => Instruction.fromBuffer(hexToBytes(i))) ?? [];
+  const instructions: Instruction[] = []
 
   return {
-    committed: transaction.t === 'Committed',
-    block_hash: transaction.c.block_hash,
-    block_height: transaction.c.block_height ?? 0,
-    hash: transaction.c.hash,
-    signatures: transaction.c.signatures,
+    committed: transaction.rejection_reason !== undefined,
+    block_hash: transaction.block_hash,
+    block_height: transaction.block_height ?? 0,
+    hash: transaction.hash,
+    signatures: transaction.signatures,
     payload: {
-      ...transaction.c.payload,
+      ...transaction.payload,
       instructions,
     },
   };
@@ -49,7 +51,6 @@ export function mapFromDto(transaction: TransactionDto): Transaction {
 export async function fetchList(params?: PaginationParams): Promise<Paginated<Transaction>> {
   const res = await http.fetchTransactions(params);
   const data = res.data.map(mapFromDto);
-
   return {
     pagination: res.pagination,
     data,

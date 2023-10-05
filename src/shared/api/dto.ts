@@ -139,9 +139,7 @@ declare global {
     view_change_proofs: string[];
   }
 
-  export type TransactionDto =
-    | Tagged<'Committed', CommittedTransaction>
-    | Tagged<'Rejected', RejectedTransaction>;
+  export type TransactionDto = CommittedTransaction;
 
   export interface CommittedTransaction {
     /**
@@ -152,13 +150,10 @@ declare global {
     hash: string;
     payload: TransactionPayload;
     signatures: Signature[];
-  }
-
-  export interface RejectedTransaction extends CommittedTransaction {
     /**
      * List of serialized {@link @iroha2/data-model#TransactionRejectionReason}
      */
-    rejection_reason: string;
+    rejection_reason?: string;
   }
 
   export interface TransactionPayload {

@@ -7,8 +7,8 @@ This repository is managed by Terraform!
 Node v14+ required.
 
 ```bash
-npm i
-npm build
+npm install
+npm run build
 ```
 
 Build artifacts will be located at `dist` dir.

@@ -24,6 +24,17 @@ export default defineConfig({
   build: {
     target: 'esnext',
   },
+  server: {
+    proxy: {
+      '/api-proxy': {
+        target: 'http://127.0.0.1:4000',
+        changeOrigin: true,
+        secure: false,
+        ws: false,
+        rewrite: (path) => '/api/v1' + path.replace(/api-proxy\//, ''),
+      },
+    },
+  },
   optimizeDeps: {
     esbuildOptions: {
       target: 'esnext',
